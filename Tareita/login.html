@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batman Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="batman-logo"></div>
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="email" id="email" placeholder="Correo electrónico" required>
+            <input type="tel" id="phone" placeholder="Número de teléfono" required>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+        <p id="error-message" class="error"></p>
+        <p>¿No tienes una cuenta? <a href="index.html">Regístrate aquí</a></p>
+        <div class="social-login">
+            <button>Login with Facebook</button>
+            <button>Login with Google</button>
+        </div>
+    </div>
+    <script>
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+
+            // Verificar si el usuario está registrado
+            const userExists = users.find(user => user.email === email && user.phone === phone);
+
+            if (userExists) {
+                localStorage.setItem('isLoggedIn', 'true');
+                window.location.href = 'dashboard.html';
+            } else {
+                document.getElementById('error-message').textContent = 'Error: Usuario no encontrado';
+            }
+        });
+
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>
